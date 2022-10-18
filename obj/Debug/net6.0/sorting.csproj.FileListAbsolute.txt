@@ -1,0 +1,15 @@
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/sorting
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/sorting.deps.json
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/sorting.runtimeconfig.json
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/sorting.dll
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/ref/sorting.dll
+/home/michael/Documents/programming/c#/sorting/bin/Debug/net6.0/sorting.pdb
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.csproj.AssemblyReference.cache
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.GeneratedMSBuildEditorConfig.editorconfig
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.AssemblyInfoInputs.cache
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.AssemblyInfo.cs
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.csproj.CoreCompileInputs.cache
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.dll
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/ref/sorting.dll
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.pdb
+/home/michael/Documents/programming/c#/sorting/obj/Debug/net6.0/sorting.genruntimeconfig.cache

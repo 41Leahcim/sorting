@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "M2J7SrLeayLxMcAHG0z1Uc5HC9TeIv8O7qK8xJDDgdU3l1fvx8b0cmLQw5Ag3BhRcbru9OrxAHMz/QSK8P+MkQ==",
+  "success": true,
+  "projectFilePath": "/home/michael/Documents/programming/c#/sorting/sorting.csproj",
+  "expectedPackageFiles": [
+    "/home/michael/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.10/microsoft.aspnetcore.app.ref.6.0.10.nupkg.sha512"
+  ],
+  "logs": []
+}
