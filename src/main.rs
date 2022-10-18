@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic, clippy::nursery)]
+
 pub mod bubble_sort;
 pub mod insertion_sort;
 pub mod merge_sort;
@@ -11,32 +13,32 @@ use selection_sort::selection_sort;
 
 #[allow(dead_code)]
 enum Algorithm{
-    BubbleSort,
-    InsertionSort,
-    MergeSort,
-    SelectionSort
+    Bubble,
+    Insertion,
+    Merge,
+    Selection
 }
 
 const ARRAY_LENGTH: usize = 100;
 
 fn main() {
     let start = SystemTime::now();
-    let algorithm = Algorithm::BubbleSort;
-    let mut values: Vec<u32> = Vec::new();
+    let algorithm = Algorithm::Bubble;
+    let mut values = Vec::new();
     values.reserve(ARRAY_LENGTH);
 
     for i in 0..ARRAY_LENGTH{
-        values.push((ARRAY_LENGTH - i) as u32);
+        values.push(ARRAY_LENGTH - i);
     }
 
     match algorithm{
-        Algorithm::BubbleSort => bubble_sort(&mut values),
-        Algorithm::InsertionSort => insertion_sort(&mut values),
-        Algorithm::MergeSort => merge_sort(&mut values),
-        Algorithm::SelectionSort => selection_sort(&mut values)
+        Algorithm::Bubble => bubble_sort(&mut values),
+        Algorithm::Insertion => insertion_sort(&mut values),
+        Algorithm::Merge => merge_sort(&mut values),
+        Algorithm::Selection => selection_sort(&mut values)
     }
 
-    eprintln!("{:?}", values);
+    eprintln!("{values:?}");
     if let Ok(elapsed) = start.elapsed(){
         eprintln!("{}", elapsed.as_secs_f64());
     }

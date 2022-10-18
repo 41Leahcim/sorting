@@ -1,3 +1,5 @@
+#![warn(clippy::pedantic, clippy::nursery)]
+
 // 0.000004690 for 1
 // 0.000026638 for 10
 // 0.000085314 for 100
