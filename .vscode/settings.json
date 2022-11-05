@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "low_memory_merge_sort.h": "c",
+        "string_view": "c"
+    }
+}

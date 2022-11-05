@@ -26,10 +26,18 @@ void merge_sort(List* a){
             .values = (uint64_t*)malloc(a->length / 2 * sizeof(uint64_t)),
             .length = a->length / 2
         };
+        if(b.values == NULL){
+            perror("Failed to allocate memory for list");
+            exit(EXIT_FAILURE);
+        }
         List c = {
             .values = (uint64_t*)malloc((a->length - b.length) * sizeof(uint64_t)),
             .length = a->length - b.length
         };
+        if(c.values == NULL){
+            perror("Failed to allocate memory for list");
+            exit(EXIT_FAILURE);
+        }
         memcpy(b.values, a->values, b.length * sizeof(uint64_t));
         memcpy(c.values, a->values + b.length, c.length * sizeof(uint64_t));
         merge_sort(&b);
