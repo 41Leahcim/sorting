@@ -10,10 +10,8 @@
 //  4.714067858 for 10000000
 //  53.458920924 for 100000000
 pub fn merge_sort<T: PartialOrd + Copy>(array: &mut Vec<T>){
-    if array.len() <= 2{
-        if array.len() == 2 && array[0] > array[1]{
-            array.swap(0, 1);
-        }
+    if array.len() == 2 && array[0] > array[1]{
+        array.swap(0, 1);
     }else{
         let (array2, array3) = array.split_at(array.len() / 2);
         let mut array2 : Vec<T> = array2.into();
