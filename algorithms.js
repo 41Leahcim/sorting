@@ -1,8 +1,8 @@
-//    100 : 0.007
-//   1000 : 0.008
-//  10000 : 0.171
-// 100000 : 16.639
-exports.bubble_sort = (values) => {
+//    100 : 0.008
+//   1000 : 0.024
+//  10000 : 0.102
+// 100000 : 11.453
+export function bubble_sort(values){
     for(let i = 0;i < values.length;i++){
         for(let j = 1;j < values.length - i;j++){
             if(values[j - 1] > values[j]){
@@ -12,11 +12,11 @@ exports.bubble_sort = (values) => {
     }
 }
 
-//    100 : 0.005
-//   1000 : 0.006
-//  10000 : 0.253
-// 100000 : 24.051
-exports.insertion_sort = (values) => {
+//    100 : 0.002
+//   1000 : 0.004
+//  10000 : 0.17
+// 100000 : 16.934
+export function insertion_sort(values){
     let i = 1;
     while(i < values.length){
         if(values[i] < values[i - 1]){
@@ -32,12 +32,12 @@ exports.insertion_sort = (values) => {
     }
 }
 
-//     1000 : 0.003
-//    10000 : 0.015
-//   100000 : 0.045
-//  1000000 : 0.257
-// 10000000 : 2.67
-exports.merge_sort = (array) => {
+//     1000 : 0.006
+//    10000 : 0.027
+//   100000 : 0.038
+//  1000000 : 0.112
+// 10000000 : 1.271
+export function merge_sort(array){
     if(array.length == 2 && array[0] > array[1]){
         [array[0], array[1]] = [array[1], array[0]]
     }else if(array.length > 2){
@@ -61,10 +61,10 @@ exports.merge_sort = (array) => {
     }
 }
 
-//   1000 : 0.007
-//  10000 : 0.039
-// 100000 : 3.64
-exports.selection_sort = (values) => {
+//   1000 : 0.014
+//  10000 : 0.038
+// 100000 : 3.963
+export function selection_sort(values){
     for(let i = 0;i < values.length;i++){
         let lowest_index = i;
         for(let j = i + 1;j < values.length;j++){

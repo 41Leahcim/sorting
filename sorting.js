@@ -1,5 +1,5 @@
-const algorithms = require ("./algorithms");
-const length = 10000000;
+import * as algorithms from "./algorithms.js";
+const length = 100000;
 
 let values = [];
 
@@ -8,11 +8,11 @@ for(let i = 0;i < length;i++){
 }
 
 const start = new Date();
-algorithms.merge_sort(values);
+algorithms.selection_sort(values);
 const performance = (new Date() - start) / 1000.0;
 
-values.forEach(value => {
+/*values.forEach(value => {
     console.log(value);
-});
+});*/
 
 console.log(performance);
