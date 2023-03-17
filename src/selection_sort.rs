@@ -1,19 +1,21 @@
 #![warn(clippy::pedantic, clippy::nursery)]
 
-// 0.000004410 for 1
-// 0.000011003 for 10
-// 0.000103706 for 100
-// 0.001355115 for 1000
-// 0.063606111 for 10000
-// 2.666211606 for 100000
+use std::ops::Add;
+
+//      1: 0.000000337
+//     10: 0.000000416
+//    100: 0.000008076
+//   1000: 0.000371379
+//  10000: 0.038134269
+// 100000: 4.418165212
 pub fn selection_sort<T: PartialOrd>(values: &mut [T]) {
-    for i in 0..values.len() {
+    (0..values.len()).for_each(|i|{
         let mut lowest_index = i;
-        for j in (i + 1)..values.len() {
+        (i.add(1)..values.len()).for_each(|j|{
             if values[j] < values[lowest_index] {
                 lowest_index = j;
             }
-        }
+        });
         values.swap(i, lowest_index);
-    }
+    });
 }

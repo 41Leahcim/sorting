@@ -1,12 +1,12 @@
 #![warn(clippy::pedantic, clippy::nursery)]
 
-// 0.000004690 for 1
-// 0.000026638 for 10
-// 0.000085314 for 100
-// 0.001675547 for 1000
-// 0.080591259 for 10000
-// 7.505769325 for 100000
-pub fn insertion_sort<T: PartialOrd>(values: &mut Vec<T>) {
+//      1: 0.000000473
+//     10: 0.000000528
+//    100: 0.000013211
+//   1000: 0.001210332
+//  10000: 0.129037339
+// 100000: 9.038658903
+pub fn insertion_sort<T: PartialOrd>(values: &mut [T]) {
     let mut i = 1;
     while i < values.len() {
         if values[i] < values[i - 1] {

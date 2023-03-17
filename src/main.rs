@@ -1,48 +1,49 @@
 #![warn(clippy::pedantic, clippy::nursery)]
-#![feature(is_sorted)]
 
 pub mod bubble_sort;
 pub mod insertion_sort;
 pub mod merge_sort;
 pub mod selection_sort;
-pub mod bogo_sort;
 
 use bubble_sort::bubble_sort;
 use insertion_sort::insertion_sort;
 use merge_sort::merge_sort;
+use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 use selection_sort::selection_sort;
-use bogo_sort::bogo_sort;
 use std::time::Instant;
 
 #[allow(dead_code)]
+#[derive(Debug, Clone, Copy)]
 enum Algorithm {
     Bubble,
     Insertion,
     Merge,
     Selection,
-    Bogo
 }
 
-const ARRAY_LENGTH: usize = 16;
-
-fn main() {
+fn sort_performance_test(array_length: usize, algorithm: Algorithm, output: &mut String) -> f64{
     let start = Instant::now();
-    let algorithm = Algorithm::Bogo;
-    let mut values = Vec::new();
-    values.reserve(ARRAY_LENGTH);
-
-    for i in 0..ARRAY_LENGTH {
-        values.push(ARRAY_LENGTH - i);
-    }
+    let mut values = (0..array_length).rev().collect::<Vec<usize>>();
 
     match algorithm {
         Algorithm::Bubble => bubble_sort(&mut values),
         Algorithm::Insertion => insertion_sort(&mut values),
         Algorithm::Merge => merge_sort(&mut values),
         Algorithm::Selection => selection_sort(&mut values),
-        Algorithm::Bogo => bogo_sort(&mut values)
     }
 
-    eprintln!("{values:?}");
-    eprintln!("{}", start.elapsed().as_secs_f64());
+    let performance = start.elapsed().as_secs_f64();
+    *output = format!("{output}\n{array_length:9}: {performance}");
+    performance
+}
+
+fn main() {
+    [Algorithm::Bubble, Algorithm::Insertion, Algorithm::Merge, Algorithm::Selection].into_par_iter().for_each(|algorithm|{
+        let mut buffer = String::new();
+        let mut array_length = 1;
+        while sort_performance_test(array_length, algorithm, &mut buffer) < 1.0{
+            array_length *= 10;
+        }
+        eprintln!("{algorithm:?}{buffer}\n");
+    });
 }
