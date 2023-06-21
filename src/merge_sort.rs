@@ -1,23 +1,19 @@
-#![warn(clippy::pedantic, clippy::nursery)]
-
-use std::ops::Sub;
-
-//         1: 0.000000871
-//        10: 0.000001066
-//       100: 0.000009116
-//      1000: 0.000054972
-//     10000: 0.000397916
-//    100000: 0.004889183
-//   1000000: 0.054042774
-//  10000000: 0.656803313
-// 100000000: 8.23213366
+//           1: 0.000000144
+//          10: 0.000000441
+//         100: 0.000026834
+//       1_000: 0.000046258
+//      10_000: 0.000353535
+//     100_000: 0.003675381
+//   1_000_000: 0.039050525
+//  10_000_000: 0.492102457
+// 100_000_000: 5.874551763
 pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
     if array.len() == 2 && array[0] > array[1] {
         array.swap(0, 1);
-    } else if array.len() > 2{
+    } else if array.len() > 2 {
         let half_size = array.len() / 2;
-        let mut array2 = (0..half_size).map(|i| array[i]).collect::<Vec<T>>();
-        let mut array3 = (0..array.len().sub(half_size)).map(|i| array[half_size + i]).collect::<Vec<T>>();
+        let mut array2 = array[..half_size].to_owned();
+        let mut array3 = array[half_size..].to_owned();
         merge_sort(&mut array2);
         merge_sort(&mut array3);
         let mut i = 0;
@@ -33,15 +29,11 @@ pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
             }
             k += 1;
         }
-        while i < array2.len() {
-            array[k] = array2[i];
-            i += 1;
-            k += 1;
+        for (a, b) in array.iter_mut().skip(k).zip(array2.into_iter().skip(i)) {
+            *a = b;
         }
-        while j < array3.len() {
-            array[k] = array3[j];
-            j += 1;
-            k += 1;
+        for (a, b) in array.iter_mut().skip(k).zip(array3.into_iter().skip(j)) {
+            *a = b;
         }
     }
 }

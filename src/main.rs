@@ -21,7 +21,7 @@ enum Algorithm {
     Selection,
 }
 
-fn sort_performance_test(array_length: usize, algorithm: Algorithm, output: &mut String) -> f64{
+fn sort_performance_test(array_length: usize, algorithm: Algorithm, output: &mut String) -> f64 {
     let start = Instant::now();
     let mut values = (0..array_length).rev().collect::<Vec<usize>>();
 
@@ -37,11 +37,36 @@ fn sort_performance_test(array_length: usize, algorithm: Algorithm, output: &mut
     performance
 }
 
+fn sort_accuracy_test(array_length: usize, algorithm: Algorithm) {
+    let mut values = (0..array_length).rev().collect::<Vec<usize>>();
+
+    match algorithm {
+        Algorithm::Bubble => bubble_sort(&mut values),
+        Algorithm::Insertion => insertion_sort(&mut values),
+        Algorithm::Merge => merge_sort(&mut values),
+        Algorithm::Selection => selection_sort(&mut values),
+    }
+
+    assert_eq!(
+        values,
+        (0..array_length).collect::<Vec<_>>(),
+        "Array of length {array_length} failed to sort with algorithm {algorithm:?}"
+    );
+}
+
 fn main() {
-    [Algorithm::Bubble, Algorithm::Insertion, Algorithm::Merge, Algorithm::Selection].into_par_iter().for_each(|algorithm|{
+    [
+        Algorithm::Bubble,
+        Algorithm::Insertion,
+        Algorithm::Merge,
+        Algorithm::Selection,
+    ]
+    .into_par_iter()
+    .for_each(|algorithm| {
+        sort_accuracy_test(10, algorithm);
         let mut buffer = String::new();
         let mut array_length = 1;
-        while sort_performance_test(array_length, algorithm, &mut buffer) < 1.0{
+        while sort_performance_test(array_length, algorithm, &mut buffer) < 1.0 {
             array_length *= 10;
         }
         eprintln!("{algorithm:?}{buffer}\n");
