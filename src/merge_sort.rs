@@ -11,9 +11,9 @@ pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
     if array.len() == 2 && array[0] > array[1] {
         array.swap(0, 1);
     } else if array.len() > 2 {
-        let half_size = array.len() / 2;
-        let mut array2 = array[..half_size].to_owned();
-        let mut array3 = array[half_size..].to_owned();
+        let (array2, array3) = array.split_at(array.len() / 2);
+        let mut array2 = array2.to_owned();
+        let mut array3 = array3.to_owned();
         merge_sort(&mut array2);
         merge_sort(&mut array3);
         let mut i = 0;
