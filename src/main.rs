@@ -3,9 +3,10 @@ use std::{
     time::{Duration, Instant},
 };
 
+#[cfg(feature = "alloc")]
+use algorithms::sorting::merge_sort::merge_sort;
 use algorithms::sorting::{
-    bubble_sort::bubble_sort, insertion_sort::insertion_sort, merge_sort::merge_sort,
-    selection_sort::selection_sort,
+    bubble_sort::bubble_sort, insertion_sort::insertion_sort, selection_sort::selection_sort,
 };
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 
@@ -51,9 +52,10 @@ fn sorting_test(function: fn(&mut [u32]), name: &str) {
 
 fn main() {
     #[allow(clippy::type_complexity)]
-    let sorting: [(fn(&mut [u32]), &str); 4] = [
+    let sorting: Vec<(fn(&mut [u32]), &str)> = vec![
         (bubble_sort, "bubble_sort"),
         (insertion_sort, "insertion_sort"),
+        #[cfg(feature = "alloc")]
         (merge_sort, "merge_sort"),
         (selection_sort, "selection_sort"),
     ];
