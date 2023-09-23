@@ -1,3 +1,7 @@
+extern crate alloc;
+
+use alloc::borrow::ToOwned;
+
 //           1: 0.000000144
 //          10: 0.000000441
 //         100: 0.000026834

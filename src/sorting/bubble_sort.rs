@@ -1,4 +1,4 @@
-use std::ops::Sub;
+use core::ops::Sub;
 
 //       1: 0.000000247
 //      10: 0.000000215
