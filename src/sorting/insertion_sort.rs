@@ -1,21 +1,16 @@
-//       1: 0.000000182
-//      10: 0.000000487
-//     100: 0.000012729
-//   1_000: 0.001155257
-//  10_000: 0.104986252
-// 100_000: 7.813983133
+//       1: 0.000000109
+//      10: 0.000000192
+//     100: 0.000005459
+//   1_000: 0.000544856
+//  10_000: 0.056226938
+// 100_000: 5.892911743
 pub fn insertion_sort<T: PartialOrd>(values: &mut [T]) {
-    let mut i = 1;
-    while i < values.len() {
-        if values[i] < values[i - 1] {
-            values.swap(i, i - 1);
-            if i > 1 {
-                i -= 1;
-            } else {
-                i += 1;
+    for i in 1..values.len() {
+        for i in (1..=i).rev() {
+            if values[i] >= values[i - 1] {
+                break;
             }
-        } else {
-            i += 1;
+            values.swap(i, i - 1);
         }
     }
 }
