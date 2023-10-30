@@ -33,10 +33,11 @@ pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
             }
             k += 1;
         }
-        for (a, b) in array.iter_mut().skip(k).zip(array2.into_iter().skip(i)) {
-            *a = b;
-        }
-        for (a, b) in array.iter_mut().skip(k).zip(array3.into_iter().skip(j)) {
+        for (a, b) in array
+            .iter_mut()
+            .skip(k)
+            .zip(array2.into_iter().skip(i).chain(array3.into_iter().skip(j)))
+        {
             *a = b;
         }
     }
