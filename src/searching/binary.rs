@@ -4,13 +4,13 @@ pub fn binary<T: PartialOrd>(data: &[T], item: &T) -> Option<usize> {
     let mut a = 0;
     let mut b = data.len();
     let mut center = (a + b) / 2;
-    while a != center && center != b {
-        match data[center].partial_cmp(item).unwrap() {
+    while (a + 1..b).contains(&center) {
+        match data[center].partial_cmp(item)? {
             Ordering::Less => a = center,
             Ordering::Greater => b = center,
             Ordering::Equal => return Some(center),
         };
-        center = (a + b) / 2;
+        center = a + (b - a) / 2;
     }
     if !data.is_empty() && &data[center] == item {
         Some(center)
@@ -20,7 +20,7 @@ pub fn binary<T: PartialOrd>(data: &[T], item: &T) -> Option<usize> {
 }
 
 #[cfg(test)]
-mod binary_test {
+mod test {
     use super::binary;
 
     #[test]
@@ -44,16 +44,30 @@ mod binary_test {
     }
 
     #[test]
-    fn long_array() {
-        let mut data = [0; 1000];
-        for (i, data) in data.iter_mut().enumerate() {
-            *data = i;
-        }
-        assert_eq!(binary(&data, &456), Some(456));
-    }
-
-    #[test]
     fn not_found() {
         assert_eq!(binary(&[0, 1, 2], &3), None);
+    }
+
+    #[cfg(feature = "alloc")]
+    extern crate alloc;
+
+    #[cfg(feature = "alloc")]
+    use alloc::vec::Vec;
+
+    #[allow(clippy::cast_possible_truncation)]
+    #[test]
+    fn long_array() {
+        #[cfg(feature = "alloc")]
+        let data = (0..u16::MAX).collect::<Vec<_>>();
+        #[cfg(not(feature = "alloc"))]
+        let data = {
+            let mut data = [0; 1000];
+            for (i, data) in data.iter_mut().enumerate() {
+                *data = i as u16;
+            }
+            data
+        };
+        let value = data.len() as u16 - 1;
+        assert_eq!(binary(&data, &value), Some(value as usize));
     }
 }

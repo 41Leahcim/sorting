@@ -42,3 +42,21 @@ pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
         }
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::merge_sort as sort;
+    use crate::sorting::is_sorted;
+
+    #[test]
+    fn sorts() {
+        let mut data = [0; 1000];
+        data.iter_mut()
+            .rev()
+            .enumerate()
+            .for_each(|(value, item)| *item = value);
+        assert!(!is_sorted(&data));
+        sort(&mut data);
+        assert!(is_sorted(&data));
+    }
+}

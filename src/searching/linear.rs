@@ -8,7 +8,7 @@ pub fn linear<T: PartialEq>(data: &[T], item: &T) -> Option<usize> {
 }
 
 #[cfg(test)]
-mod binary_test {
+mod test {
     use super::linear;
 
     #[test]
@@ -32,16 +32,30 @@ mod binary_test {
     }
 
     #[test]
-    fn long_array() {
-        let mut data = [0; 1000];
-        for (i, data) in data.iter_mut().enumerate() {
-            *data = i;
-        }
-        assert_eq!(linear(&data, &456), Some(456));
-    }
-
-    #[test]
     fn not_found() {
         assert_eq!(linear(&[0, 1, 2], &3), None);
+    }
+
+    #[cfg(feature = "alloc")]
+    extern crate alloc;
+
+    #[cfg(feature = "alloc")]
+    use alloc::vec::Vec;
+
+    #[allow(clippy::cast_possible_truncation)]
+    #[test]
+    fn long_array() {
+        #[cfg(feature = "alloc")]
+        let data = (0..u16::MAX).collect::<Vec<_>>();
+        #[cfg(not(feature = "alloc"))]
+        let data = {
+            let mut data = [0; 1000];
+            for (i, data) in data.iter_mut().enumerate() {
+                *data = i as u16;
+            }
+            data
+        };
+        let value = data.len() as u16 - 1;
+        assert_eq!(linear(&data, &value), Some(value as usize));
     }
 }
