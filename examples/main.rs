@@ -5,9 +5,13 @@ use std::{
 
 #[cfg(feature = "alloc")]
 use algorithms::sorting::merge_sort::merge_sort;
+#[cfg(feature = "std")]
+use algorithms::sorting::sleep_sort::sleep_sort;
 use algorithms::sorting::{
-    bubble_sort::bubble_sort, insertion_sort::insertion_sort, selection_sort::selection_sort,
+    bubble_sort::bubble_sort, insertion_sort::insertion_sort, is_sorted,
+    selection_sort::selection_sort,
 };
+
 use rayon::prelude::{IntoParallelIterator, ParallelIterator};
 
 const MAX_DURATION: Duration = Duration::from_secs(1);
@@ -16,20 +20,6 @@ fn measure_performance<T>(func: impl Fn(T), arg: T) -> Duration {
     let start = Instant::now();
     func(arg);
     start.elapsed()
-}
-
-fn is_sorted<T: PartialOrd>(data: &[T]) -> bool {
-    if data.len() < 2 {
-        return true;
-    }
-    let mut last = &data[0];
-    for item in data.iter().skip(1) {
-        if last > item {
-            return false;
-        }
-        last = item;
-    }
-    true
 }
 
 fn sorting_test(function: fn(&mut [u32]), name: &str) {
@@ -58,6 +48,8 @@ fn main() {
         #[cfg(feature = "alloc")]
         (merge_sort, "merge_sort"),
         (selection_sort, "selection_sort"),
+        #[cfg(feature = "std")]
+        (sleep_sort, "sleep_sort"),
     ];
     sorting
         .into_par_iter()
@@ -90,6 +82,7 @@ fn main() {
                 Some(max_value - 1),
                 "{name} didn't find a value that was in the array"
             );
+            assert!(is_sorted(&data));
             writeln!(&mut output, "{max_value}: {}", performance.as_secs_f64()).unwrap();
             max_value *= 10;
         }
