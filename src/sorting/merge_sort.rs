@@ -1,7 +1,56 @@
 extern crate alloc;
 
-use alloc::borrow::ToOwned;
+use core::ops::Range;
 
+use alloc::vec::Vec;
+
+/*const fn power_of_two_index<T: PartialOrd + Copy + From<u8> + core::ops::ShrAssign>(
+    mut number: T,
+) -> usize {
+    let mut i = 0;
+    let one = T::from(1);
+    while number > one {
+        number >>= one;
+        i += 1;
+    }
+    i
+}*/
+
+// Merges the values of both halves of the values slice in order.
+// This is the most important step in mergesort.
+fn merge<T: PartialOrd + Copy>(values: &mut [T], buffer: &mut Vec<T>) {
+    // Determine the middle of the array
+    let middle = values.len() / 2;
+
+    // Create 1 index that starts at the start of the array and another starting in
+    // the middle
+    let (mut i, mut j) = (0, middle);
+
+    // Clear the buffer
+    buffer.clear();
+
+    // Add the values in order to the buffer
+    while i < middle && j < values.len() {
+        if values[i] < values[j] {
+            buffer.push(values[i]);
+            i += 1;
+        } else {
+            buffer.push(values[j]);
+            j += 1;
+        }
+    }
+
+    // Add the rest of the values to the buffer
+    buffer.extend_from_slice(&values[i..middle]);
+    buffer.extend_from_slice(&values[j..]);
+
+    // Copy the values from the buffer to the correct part of the array
+    for (target, source) in values.iter_mut().zip(buffer.iter()) {
+        *target = *source;
+    }
+}
+
+#[allow(clippy::unwrap_used)]
 //           1: 0.000000144
 //          10: 0.000000441
 //         100: 0.000026834
@@ -11,35 +60,49 @@ use alloc::borrow::ToOwned;
 //   1_000_000: 0.039050525
 //  10_000_000: 0.492102457
 // 100_000_000: 5.874551763
-pub fn merge_sort<T: PartialOrd + Copy>(array: &mut [T]) {
-    if array.len() == 2 && array[0] > array[1] {
-        array.swap(0, 1);
-    } else if array.len() > 2 {
-        let (array2, array3) = array.split_at(array.len() / 2);
-        let mut array2 = array2.to_owned();
-        let mut array3 = array3.to_owned();
-        merge_sort(&mut array2);
-        merge_sort(&mut array3);
-        let mut i = 0;
-        let mut j = 0;
-        let mut k = 0;
-        while i < array2.len() && j < array3.len() {
-            if array2[i] < array3[j] {
-                array[k] = array2[i];
-                i += 1;
-            } else {
-                array[k] = array3[j];
-                j += 1;
+/// # Panics
+/// Will eventually panic when sorting more than 2¹²⁸ values.
+pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
+    // Create a vector for the index ranges
+    //let expected_max_length = power_of_two_index(values.len()) * 2 + 1;
+    //let mut ranges = Vec::with_capacity(expected_max_length);
+    let mut ranges = heapless::Vec::<Range<usize>, 257>::new();
+
+    // Create a vector to store values when merging
+    let mut buffer = Vec::with_capacity(values.len());
+
+    // Add the first range
+    ranges.push(0..values.len()).unwrap();
+
+    // Store the current length as the previous length
+    let mut previous_length = values.len();
+
+    // Continue sorting until all ranges have been sorted
+    while let Some(range) = ranges.pop() {
+        // Check the length of the current range
+        match range.len() {
+            // If the range only contains 0 or 1 values, those values are sorted
+            0 | 1 => {}
+
+            // If the range contains 2 values and they are in the right order, they are sorted
+            2 if values[range.start] < values[range.end - 1] => {}
+
+            // If it contains 2 values in the wrong order, swap them
+            2 => values.swap(range.start, range.end - 1),
+
+            // If the previous length was greater than the current length, split the range
+            length if previous_length >= length => {
+                let middle = range.start + length / 2;
+                ranges
+                    .extend_from_slice(&[range.clone(), range.start..middle, middle..range.end])
+                    .unwrap();
             }
-            k += 1;
+
+            // Otherwise, merge the range
+            _ => merge(&mut values[range.start..range.end], &mut buffer),
         }
-        for (a, b) in array
-            .iter_mut()
-            .skip(k)
-            .zip(array2.into_iter().skip(i).chain(array3.into_iter().skip(j)))
-        {
-            *a = b;
-        }
+        // Store the current length as the previous length
+        previous_length = range.len();
     }
 }
 

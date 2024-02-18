@@ -6,9 +6,12 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [features]
-default = []
-alloc = []
+default = ["std"]
+alloc = ["dep:heapless"]
 std = ["alloc"]
 
 [dev-dependencies]
 rayon =  "1.8.0"
+
+[dependencies]
+heapless = {version = "0.8.0", optional = true}
