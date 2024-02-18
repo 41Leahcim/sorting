@@ -4,18 +4,6 @@ use core::ops::Range;
 
 use alloc::vec::Vec;
 
-/*const fn power_of_two_index<T: PartialOrd + Copy + From<u8> + core::ops::ShrAssign>(
-    mut number: T,
-) -> usize {
-    let mut i = 0;
-    let one = T::from(1);
-    while number > one {
-        number >>= one;
-        i += 1;
-    }
-    i
-}*/
-
 // Merges the values of both halves of the values slice in order.
 // This is the most important step in mergesort.
 fn merge<T: PartialOrd + Copy>(values: &mut [T], buffer: &mut Vec<T>) {
@@ -51,15 +39,15 @@ fn merge<T: PartialOrd + Copy>(values: &mut [T], buffer: &mut Vec<T>) {
 }
 
 #[allow(clippy::unwrap_used)]
-//           1: 0.000000144
-//          10: 0.000000441
-//         100: 0.000026834
-//       1_000: 0.000046258
-//      10_000: 0.000353535
-//     100_000: 0.003675381
-//   1_000_000: 0.039050525
-//  10_000_000: 0.492102457
-// 100_000_000: 5.874551763
+//           1: 0.000000406
+//          10: 0.000000801
+//         100: 0.000003501
+//       1_000: 0.000026241
+//      10_000: 0.000438492
+//     100_000: 0.003813203
+//   1_000_000: 0.038404551
+//  10_000_000: 0.396210257
+// 100_000_000: 4.210718009
 /// # Panics
 /// Will eventually panic when sorting more than 2¹²⁸ values.
 pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
