@@ -1,6 +1,6 @@
 flags = -Wall -Wextra -Wpedantic -Wtrampolines -fPIE -pie -fcf-protection=full
 
-app: app.cpp
+app: app.cpp $(wildcard *.hpp)
 	g++ app.cpp $(flags) -O2 -o app
 
 clean:
