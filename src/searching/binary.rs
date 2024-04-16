@@ -1,22 +1,19 @@
 use core::cmp::Ordering;
 
-pub fn binary<T: PartialOrd>(data: &[T], item: &T) -> Option<usize> {
-    let mut a = 0;
-    let mut b = data.len();
-    let mut center = (a + b) / 2;
-    while (a + 1..b).contains(&center) {
-        match data[center].partial_cmp(item)? {
-            Ordering::Less => a = center,
-            Ordering::Greater => b = center,
-            Ordering::Equal => return Some(center),
-        };
-        center = a + (b - a) / 2;
+pub fn binary<T: PartialOrd>(mut values: &[T], element: &T) -> Option<usize> {
+    let mut index = 0;
+    while !values.is_empty() {
+        let middle = values.len() / 2;
+        match values[middle].partial_cmp(element)? {
+            Ordering::Less => {
+                index += middle + 1;
+                values = &values[middle + 1..];
+            }
+            Ordering::Equal => return Some(index + middle),
+            Ordering::Greater => values = &values[..middle],
+        }
     }
-    if !data.is_empty() && &data[center] == item {
-        Some(center)
-    } else {
-        None
-    }
+    None
 }
 
 #[cfg(test)]

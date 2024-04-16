@@ -67,7 +67,7 @@ fn main() {
         let mut max_value = 1;
         let mut output = String::new();
         writeln!(&mut output, "{name}").unwrap();
-        while performance < MAX_DURATION && max_value < 1_000_000_000 {
+        while performance < MAX_DURATION && max_value <= 1_000_000_000 {
             let data = (0..max_value).collect::<Vec<_>>();
             let start = Instant::now();
             function(&data, &max_value);
