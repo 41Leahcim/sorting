@@ -2,7 +2,7 @@ extern crate std;
 use core::{fmt::Debug, time::Duration};
 use std::{sync::mpsc::channel, thread};
 
-pub fn sleep_sort<T: TryInto<u64> + Copy + Send>(values: &mut [T])
+pub fn sleep_sort<T: TryInto<u64> + Clone + Send>(values: &mut [T])
 where
     T::Error: Debug,
 {
@@ -11,10 +11,10 @@ where
     };
     thread::scope(|s| {
         let (tx, rx) = channel::<T>();
-        for value in values.iter().copied() {
+        for value in values.iter().cloned() {
             let tx = tx.clone();
             s.spawn(move || {
-                let delay: u64 = value.try_into().unwrap_or(u64::MAX);
+                let delay: u64 = value.clone().try_into().unwrap_or(u64::MAX);
                 thread::sleep(Duration::from_millis(delay * length));
                 tx.send(value).ok();
             });

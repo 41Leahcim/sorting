@@ -10,10 +10,5 @@ pub mod sleep_sort;
 /// Empty slices and slices only containing one value are always sorted.
 /// Only works for low to high sorted slices.
 pub fn is_sorted<T: PartialOrd>(values: &[T]) -> bool {
-    for i in 1..values.len() {
-        if values[i - 1] > values[i] {
-            return false;
-        }
-    }
-    true
+    !(1..values.len()).any(|i| values[i - 1] > values[i])
 }

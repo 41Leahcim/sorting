@@ -1,5 +1,6 @@
 use std::{
     fmt::Write,
+    io::{self, Write as _},
     time::{Duration, Instant},
 };
 
@@ -65,7 +66,7 @@ fn main() {
     searching.into_par_iter().for_each(|(function, name)| {
         let mut performance = Duration::from_secs(0);
         let mut max_value = 1;
-        let mut output = String::new();
+        let mut output = io::stdout().lock();
         writeln!(&mut output, "{name}").unwrap();
         while performance < MAX_DURATION && max_value <= 1_000_000_000 {
             let data = (0..max_value).collect::<Vec<_>>();
@@ -86,6 +87,6 @@ fn main() {
             writeln!(&mut output, "{max_value}: {}", performance.as_secs_f64()).unwrap();
             max_value *= 10;
         }
-        println!("{output}");
+        writeln!(&mut output).unwrap();
     })
 }
