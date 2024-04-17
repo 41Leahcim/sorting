@@ -4,6 +4,7 @@
 //   1_000: 0.000576675
 //  10_000: 0.054697376
 // 100_000: 3.037190835
+#[inline]
 pub fn selection_sort<T: PartialOrd>(values: &mut [T]) {
     for i in 0..values.len() {
         let mut lowest_index = i;

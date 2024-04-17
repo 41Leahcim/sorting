@@ -4,6 +4,7 @@
 //   1_000: 0.000530367
 //  10_000: 0.0517192
 // 100_000: 5.6478147199999995
+#[inline]
 pub fn bubble_sort<T: PartialOrd>(values: &mut [T]) {
     for i in 0..values.len() {
         for j in 1..values.len() - i {

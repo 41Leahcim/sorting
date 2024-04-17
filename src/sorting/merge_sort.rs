@@ -50,6 +50,7 @@ fn merge<T: PartialOrd + Copy>(values: &mut [T], buffer: &mut Vec<T>) {
 // 100_000_000: 4.210718009
 /// # Panics
 /// Will eventually panic when sorting more than 2¹²⁸ values.
+#[inline]
 pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
     // Create a vector for the index ranges
     //let expected_max_length = power_of_two_index(values.len()) * 2 + 1;

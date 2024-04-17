@@ -1,5 +1,6 @@
 use core::cmp::Ordering;
 
+#[inline]
 pub fn binary<T: PartialOrd>(mut values: &[T], element: &T) -> Option<usize> {
     let mut index = 0;
     while !values.is_empty() {

@@ -1,6 +1,7 @@
+#[inline]
 pub fn linear<T: PartialEq>(data: &[T], item: &T) -> Option<usize> {
-    for (index, data) in data.iter().enumerate() {
-        if data == item {
+    for (index, value) in data.iter().enumerate() {
+        if value == item {
             return Some(index);
         }
     }
