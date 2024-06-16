@@ -1,7 +1,5 @@
 extern crate alloc;
 
-use core::ops::Range;
-
 use alloc::vec::Vec;
 
 // Merges the values of both halves of the values slice in order.
@@ -55,13 +53,13 @@ pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
     // Create a vector for the index ranges
     //let expected_max_length = power_of_two_index(values.len()) * 2 + 1;
     //let mut ranges = Vec::with_capacity(expected_max_length);
-    let mut ranges = heapless::Vec::<Range<usize>, 257>::new();
+    let mut ranges = Vec::with_capacity(257);
 
     // Create a vector to store values when merging
     let mut buffer = Vec::with_capacity(values.len());
 
     // Add the first range
-    ranges.push(0..values.len()).unwrap();
+    ranges.push(0..values.len());
 
     // Store the current length as the previous length
     let mut previous_length = values.len();
@@ -82,9 +80,7 @@ pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
             // If the previous length was greater than the current length, split the range
             length if previous_length >= length => {
                 let middle = range.start + length / 2;
-                ranges
-                    .extend_from_slice(&[range.clone(), range.start..middle, middle..range.end])
-                    .unwrap();
+                ranges.extend_from_slice(&[range.clone(), range.start..middle, middle..range.end]);
             }
 
             // Otherwise, merge the range

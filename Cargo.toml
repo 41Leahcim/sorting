@@ -7,11 +7,8 @@ edition = "2021"
 
 [features]
 default = ["std"]
-alloc = ["dep:heapless"]
+alloc = []
 std = ["alloc"]
 
 [dev-dependencies]
 rayon =  "1"
-
-[dependencies]
-heapless = {version = "0.8", optional = true}

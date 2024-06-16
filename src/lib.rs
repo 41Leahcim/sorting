@@ -11,7 +11,8 @@
     clippy::default_numeric_fallback,
     clippy::as_conversions,
     clippy::single_call_fn,
-    clippy::self_named_module_files
+    clippy::self_named_module_files,
+    clippy::integer_division_remainder_used
 )]
 
 pub mod searching;
