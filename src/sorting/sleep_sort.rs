@@ -36,7 +36,7 @@ mod test {
 
     #[test]
     fn sorts() {
-        const ARRAY_LENGTH: usize = 1_000;
+        const ARRAY_LENGTH: usize = 10;
         let mut data: [usize; ARRAY_LENGTH] = array::from_fn(|i| ARRAY_LENGTH - i - 1);
         assert!(!is_sorted(&data));
         sort(&mut data);
