@@ -36,7 +36,6 @@ fn merge<T: PartialOrd + Copy>(values: &mut [T], buffer: &mut Vec<T>) {
     }
 }
 
-#[allow(clippy::unwrap_used)]
 //           1: 0.000000406
 //          10: 0.000000801
 //         100: 0.000003501
@@ -93,16 +92,15 @@ pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
 
 #[cfg(test)]
 mod test {
+    use core::array;
+
     use super::merge_sort as sort;
     use crate::sorting::is_sorted;
 
     #[test]
     fn sorts() {
-        let mut data = [0; 1000];
-        data.iter_mut()
-            .rev()
-            .enumerate()
-            .for_each(|(value, item)| *item = value);
+        const ARRAY_LENGTH: usize = 1_000;
+        let mut data: [usize; ARRAY_LENGTH] = array::from_fn(|i| ARRAY_LENGTH - i - 1);
         assert!(!is_sorted(&data));
         sort(&mut data);
         assert!(is_sorted(&data));

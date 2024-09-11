@@ -18,16 +18,15 @@ pub fn insertion_sort<T: PartialOrd>(values: &mut [T]) {
 
 #[cfg(test)]
 mod test {
+    use core::array;
+
     use super::insertion_sort as sort;
     use crate::sorting::is_sorted;
 
     #[test]
     fn sorts() {
-        let mut data = [0; 1000];
-        data.iter_mut()
-            .rev()
-            .enumerate()
-            .for_each(|(value, item)| *item = value);
+        const ARRAY_LENGTH: usize = 1_000;
+        let mut data: [usize; ARRAY_LENGTH] = array::from_fn(|i| ARRAY_LENGTH - i - 1);
         assert!(!is_sorted(&data));
         sort(&mut data);
         assert!(is_sorted(&data));

@@ -19,6 +19,7 @@ pub fn binary<T: PartialOrd>(mut values: &[T], element: &T) -> Option<usize> {
 
 #[cfg(test)]
 mod test {
+
     use super::binary;
 
     #[test]
@@ -52,19 +53,16 @@ mod test {
     #[cfg(feature = "alloc")]
     use alloc::vec::Vec;
 
-    #[allow(clippy::cast_possible_truncation)]
+    #[cfg(not(feature = "alloc"))]
+    use core::array;
+
+    #[expect(clippy::cast_possible_truncation)]
     #[test]
     fn long_array() {
         #[cfg(feature = "alloc")]
         let data = (0..u16::MAX).collect::<Vec<_>>();
         #[cfg(not(feature = "alloc"))]
-        let data = {
-            let mut data = [0; 1000];
-            for (i, data) in data.iter_mut().enumerate() {
-                *data = i as u16;
-            }
-            data
-        };
+        let data: [u16; 1000] = array::from_fn(|i| i as u16);
         let value = data.len() as u16 - 1;
         assert_eq!(binary(&data, &value), Some(value as usize));
     }

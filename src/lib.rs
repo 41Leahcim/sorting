@@ -12,7 +12,8 @@
     clippy::as_conversions,
     clippy::single_call_fn,
     clippy::self_named_module_files,
-    clippy::integer_division_remainder_used
+    clippy::integer_division_remainder_used,
+    clippy::allow_attributes_without_reason
 )]
 
 pub mod searching;

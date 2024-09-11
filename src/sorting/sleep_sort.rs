@@ -13,7 +13,7 @@ where
     thread::scope(|scope| {
         let (tx, rx) = channel::<T>();
         for value in values.iter().cloned() {
-            #[allow(clippy::shadow_reuse)]
+            #[expect(clippy::shadow_reuse)]
             let tx = tx.clone();
             scope.spawn(move || {
                 let delay: u64 = value.clone().try_into().unwrap_or(u64::MAX);
@@ -25,4 +25,21 @@ where
             *target = source;
         }
     });
+}
+
+#[cfg(test)]
+mod test {
+    use core::array;
+
+    use super::sleep_sort as sort;
+    use crate::sorting::is_sorted;
+
+    #[test]
+    fn sorts() {
+        const ARRAY_LENGTH: usize = 1_000;
+        let mut data: [usize; ARRAY_LENGTH] = array::from_fn(|i| ARRAY_LENGTH - i - 1);
+        assert!(!is_sorted(&data));
+        sort(&mut data);
+        assert!(is_sorted(&data));
+    }
 }
