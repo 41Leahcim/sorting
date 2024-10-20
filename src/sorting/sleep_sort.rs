@@ -18,7 +18,7 @@ where
             scope.spawn(move || {
                 let delay: u64 = value.clone().try_into().unwrap_or(u64::MAX);
                 thread::sleep(Duration::from_millis(delay * length));
-                tx.send(value).ok();
+                tx.send(value)
             });
         }
         for (target, source) in values.iter_mut().zip(rx) {

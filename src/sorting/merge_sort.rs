@@ -66,7 +66,8 @@ pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
     // Continue sorting until all ranges have been sorted
     while let Some(range) = ranges.pop() {
         // Check the length of the current range
-        match range.len() {
+        let current_length = range.len();
+        match current_length {
             // If the range only contains 0 or 1 values, those values are sorted
             0 | 1 => {}
 
@@ -83,10 +84,10 @@ pub fn merge_sort<T: PartialOrd + Copy>(values: &mut [T]) {
             }
 
             // Otherwise, merge the range
-            _ => merge(&mut values[range.start..range.end], &mut buffer),
+            _ => merge(&mut values[range], &mut buffer),
         }
         // Store the current length as the previous length
-        previous_length = range.len();
+        previous_length = current_length;
     }
 }
 
